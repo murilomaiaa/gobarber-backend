@@ -3,7 +3,7 @@ import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
 import AppointmentsRepository from '../repositories/AppointmentsRepositoriy';
-import CreateAppointmentService from '../services/CreateAppointmentService';
+import CreateAppointmentService from '../../modules/appointments/services/CreateAppointmentService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticted';
 
