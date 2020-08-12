@@ -13,23 +13,23 @@ import User from './User';
 @Entity('appointments')
 class Apointment {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @Column()
-  providerId: string
+  providerId: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'providerId' })
-  provider: User
+  provider: User;
 
   @Column('timestamp with time zone')
-  date: Date
+  date: Date;
 
   @CreateDateColumn()
-  createdAt: Date
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt: Date;
 }
 
 export default Apointment;
