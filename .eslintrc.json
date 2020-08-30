@@ -24,10 +24,17 @@
     "prettier"
   ],
   "rules": {
+    "no-useless-constructor": "off",
     "no-underscore-dangle": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/interface-name-prefix": [
+      "off",
+      {
+        "prefixWithI": "always"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

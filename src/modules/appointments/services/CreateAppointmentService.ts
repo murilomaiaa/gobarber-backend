@@ -1,30 +1,35 @@
-import { startOfHour } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppError';
+import { startOfHour } from 'date-fns';
+import { injectable, inject } from 'tsyringe';
+
 import Appointment from '../infra/typeorm/entities/Appointment';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 /**
  * Receber informações
  * Tratativa de erros e excessões
  * Repositório
  */
-interface Request {
+
+interface IRequest {
   providerId: string;
   date: Date;
 }
 
 /**
- * Dependecy inversion (SOLID)
+ * Create appointment service
  */
-
+@injectable()
 class CreateAppointmentService {
-  public async execute({ date, providerId }: Request): Promise<Appointment> {
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) { }
 
+  public async execute({ date, providerId }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
-    const findAppointmentInSameDate = await appointmentsRepository.findByDate(
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
     );
 
@@ -32,13 +37,10 @@ class CreateAppointmentService {
       throw new AppError('This schedule is not avaliable');
     }
 
-    const appointment = appointmentsRepository.create({
+    const appointment = await this.appointmentsRepository.create({
       providerId,
       date: appointmentDate,
     });
-
-    console.log(appointment);
-    await appointmentsRepository.save(appointment);
 
     return appointment;
   }
