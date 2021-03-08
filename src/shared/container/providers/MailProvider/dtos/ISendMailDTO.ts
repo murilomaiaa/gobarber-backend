@@ -1,14 +1,15 @@
-import IParseMailTemplateDTO from '../../MailTemplateProvider/dtos/IParseMailTemplateDTO';
+import IParseMailTemplateDTO from '@shared/container/providers/MailTemplateProvider/dtos/IParseMailTemplateDTO';
 
 interface IMailContact {
   name: string;
   email: string;
 }
 
-export default interface ISendMailDTO {
+type ISendMailDTO = {
   to: IMailContact;
-  body: string;
   from?: IMailContact;
   subject?: string;
-  template?: IParseMailTemplateDTO;
+  template: IParseMailTemplateDTO;
 }
+
+export default ISendMailDTO;
