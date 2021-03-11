@@ -2,10 +2,19 @@ import { Request, Response } from 'express';
 
 import { container } from 'tsyringe';
 import UpdateUserProfileService from '@modules/users/services/UpdateUserProfileService';
+import ShowProfileService from '@modules/users/services/ShowProfileService';
 
 export default class ProfileController {
   public async show(request: Request, response: Response): Promise<Response> {
+    const userId = request.user.id
 
+    const showProfile = container.resolve(ShowProfileService)
+
+    const profile = await showProfile.execute(userId)
+
+    delete profile.password
+
+    return response.json(profile)
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
