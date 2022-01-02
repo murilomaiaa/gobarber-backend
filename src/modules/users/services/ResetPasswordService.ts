@@ -1,16 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import IUsersRepository from '../repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
+import { addHours, differenceInHours, isAfter } from 'date-fns';
+import IUsersRepository from '../repositories/IUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
-import { addHours, differenceInHours, isAfter } from 'date-fns';
 
 type IResetPassword = {
   token: string;
   password: string;
-}
+};
 
 @injectable()
 export default class ResetPasswordService {
@@ -22,17 +22,17 @@ export default class ResetPasswordService {
     private userTokensRepository: IUserTokensRepository,
 
     @inject('HashProvider')
-    private hashProvider: IHashProvider
-  ) { }
+    private hashProvider: IHashProvider,
+  ) {}
 
   public async execute({ password, token }: IResetPassword): Promise<void> {
-    const userToken = await this.userTokensRepository.findByToken(token)
-    if (!userToken) throw new AppError("Token not found")
+    const userToken = await this.userTokensRepository.findByToken(token);
+    if (!userToken) throw new AppError('Token not found');
 
-    const user = await this.usersRepository.findById(userToken.userId)
-    if (!user) throw new AppError("User not found")
+    const user = await this.usersRepository.findById(userToken.userId);
+    if (!user) throw new AppError('User not found');
 
-    const tokenCreatedAt = userToken.createdAt
+    const tokenCreatedAt = userToken.createdAt;
 
     const compareDate = addHours(tokenCreatedAt, 2);
 
@@ -40,8 +40,8 @@ export default class ResetPasswordService {
       throw new AppError('Token expired.');
     }
 
-    user.password = await this.hashProvider.generateHash(password)
+    user.password = await this.hashProvider.generateHash(password);
 
-    this.usersRepository.save(user)
+    this.usersRepository.save(user);
   }
 }

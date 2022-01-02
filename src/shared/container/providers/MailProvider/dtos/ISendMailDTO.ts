@@ -10,6 +10,6 @@ type ISendMailDTO = {
   from?: IMailContact;
   subject?: string;
   template: IParseMailTemplateDTO;
-}
+};
 
 export default ISendMailDTO;

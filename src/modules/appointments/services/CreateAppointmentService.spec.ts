@@ -2,8 +2,8 @@ import AppError from '@shared/errors/AppError';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import CreateAppointmentService from './CreateAppointmentService';
 
-let fakeAppointmentsRepository: FakeAppointmentsRepository
-let createAppointment: CreateAppointmentService
+let fakeAppointmentsRepository: FakeAppointmentsRepository;
+let createAppointment: CreateAppointmentService;
 
 describe('CreateAppointments', () => {
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('CreateAppointments', () => {
     createAppointment = new CreateAppointmentService(
       fakeAppointmentsRepository,
     );
-  })
+  });
 
   it('should be able to create a new appointment', async () => {
     const appointment = await createAppointment.execute({

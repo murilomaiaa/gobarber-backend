@@ -11,11 +11,8 @@ describe('CreateUsers', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-  })
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+  });
   it('should be able to create a new user', async () => {
     const user = await createUser.execute({
       email: 'mu@rilo.com',

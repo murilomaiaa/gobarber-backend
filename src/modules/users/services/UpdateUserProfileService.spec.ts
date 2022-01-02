@@ -16,7 +16,7 @@ describe('UpdateUserProfile', () => {
       fakeUsersRepository,
       fakeHashProvider,
     );
-  })
+  });
 
   it('should be able to update the profile', async () => {
     const user = await fakeUsersRepository.create({
@@ -31,9 +31,9 @@ describe('UpdateUserProfile', () => {
       name: 'Murilo Maia',
     });
 
-    expect(updatedUser.email).toBe('murilomaia@mail.com')
-    expect(updatedUser.name).toBe('Murilo Maia')
-    expect(updatedUser.id).toBe(user.id)
+    expect(updatedUser.email).toBe('murilomaia@mail.com');
+    expect(updatedUser.name).toBe('Murilo Maia');
+    expect(updatedUser.id).toBe(user.id);
   });
 
   it('should not be able to change to an email already used', async () => {
@@ -54,9 +54,9 @@ describe('UpdateUserProfile', () => {
         userId: user.id,
         email: 'murilo@mail.com',
         name: user.name,
-      })
-    ).rejects.toBeInstanceOf(AppError)
-  })
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 
   it('should not be able to update a non-existing user', async () => {
     await expect(
@@ -64,9 +64,9 @@ describe('UpdateUserProfile', () => {
         userId: 'inexistent id',
         email: 'inexistent@mail.com',
         name: 'inexistent',
-      })
-    ).rejects.toBeInstanceOf(AppError)
-  })
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 
   it('should be able to update password', async () => {
     const user = await fakeUsersRepository.create({
@@ -75,22 +75,21 @@ describe('UpdateUserProfile', () => {
       password: '123456',
     });
 
-    const generateHash = jest.spyOn(fakeHashProvider, 'generateHash')
+    const generateHash = jest.spyOn(fakeHashProvider, 'generateHash');
 
     const updatedUser = await updateUserProfile.execute({
       userId: user.id,
       email: user.email,
       name: 'Murilo Maia',
       oldPassword: '123456',
-      password: '123123'
+      password: '123123',
     });
 
-
-    expect(updatedUser.email).toBe('murilo@mail.com')
-    expect(updatedUser.name).toBe('Murilo Maia')
-    expect(updatedUser.id).toBe(user.id)
-    expect(updatedUser.password).toBe('123123')
-    expect(generateHash).toHaveBeenCalled()
+    expect(updatedUser.email).toBe('murilo@mail.com');
+    expect(updatedUser.name).toBe('Murilo Maia');
+    expect(updatedUser.id).toBe(user.id);
+    expect(updatedUser.password).toBe('123123');
+    expect(generateHash).toHaveBeenCalled();
   });
 
   it('should not be able to update the password without the old password', async () => {
@@ -100,12 +99,14 @@ describe('UpdateUserProfile', () => {
       password: '123456',
     });
 
-    await expect(updateUserProfile.execute({
-      userId: user.id,
-      email: user.email,
-      name: 'Murilo Maia',
-      password: '123123'
-    })).rejects.toBeInstanceOf(AppError)
+    await expect(
+      updateUserProfile.execute({
+        userId: user.id,
+        email: user.email,
+        name: 'Murilo Maia',
+        password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to update tha password with wrong old password', async () => {
@@ -115,13 +116,14 @@ describe('UpdateUserProfile', () => {
       password: '123456',
     });
 
-    await expect(updateUserProfile.execute({
-      userId: user.id,
-      email: user.email,
-      name: 'Murilo Maia',
-      oldPassword: 'wrong-old-password',
-      password: '123123'
-    })).rejects.toBeInstanceOf(AppError)
-  })
+    await expect(
+      updateUserProfile.execute({
+        userId: user.id,
+        email: user.email,
+        name: 'Murilo Maia',
+        oldPassword: 'wrong-old-password',
+        password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
-

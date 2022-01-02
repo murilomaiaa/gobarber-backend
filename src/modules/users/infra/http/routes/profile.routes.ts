@@ -6,9 +6,9 @@ import ProfileController from '../controllers/ProfileControllers';
 const profileRouter = Router();
 const profileController = new ProfileController();
 
-profileRouter.use(ensureAuthenticated)
+profileRouter.use(ensureAuthenticated);
 
 profileRouter.put('/', ensureAuthenticated, profileController.update);
-profileRouter.get('/', profileController.show)
+profileRouter.get('/', profileController.show);
 
 export default profileRouter;

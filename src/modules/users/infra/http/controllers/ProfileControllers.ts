@@ -6,15 +6,15 @@ import ShowProfileService from '@modules/users/services/ShowProfileService';
 
 export default class ProfileController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const userId = request.user.id
+    const userId = request.user.id;
 
-    const showProfile = container.resolve(ShowProfileService)
+    const showProfile = container.resolve(ShowProfileService);
 
-    const profile = await showProfile.execute(userId)
+    const profile = await showProfile.execute(userId);
 
-    delete profile.password
+    delete profile.password;
 
-    return response.json(profile)
+    return response.json(profile);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -29,10 +29,10 @@ export default class ProfileController {
       email,
       password,
       userId,
-      oldPassword
+      oldPassword,
     });
 
-    const { avatar } = user
+    const { avatar } = user;
 
     return response.json({
       id: userId,

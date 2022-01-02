@@ -12,10 +12,14 @@ let sendForgotPasswordEmail: SendForgotPasswordEmailService;
 describe('SendForgotPasswordEmail', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    fakeMailProvider = new FakeMailProvider()
-    fakeUserTokensRepository = new FakeUserTokensRepository()
-    sendForgotPasswordEmail = new SendForgotPasswordEmailService(fakeUsersRepository, fakeMailProvider, fakeUserTokensRepository)
-  })
+    fakeMailProvider = new FakeMailProvider();
+    fakeUserTokensRepository = new FakeUserTokensRepository();
+    sendForgotPasswordEmail = new SendForgotPasswordEmailService(
+      fakeUsersRepository,
+      fakeMailProvider,
+      fakeUserTokensRepository,
+    );
+  });
 
   it('should be able to recover the password using the email', async () => {
     await fakeUsersRepository.create({
@@ -24,17 +28,18 @@ describe('SendForgotPasswordEmail', () => {
       password: '123456',
     });
 
-    const sendMail = jest.spyOn(fakeMailProvider, 'sendMail')
+    const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
 
     await sendForgotPasswordEmail.execute('mu@rilo.com');
 
-    expect(sendMail).toHaveBeenCalled()
+    expect(sendMail).toHaveBeenCalled();
   });
 
   it('should not be able to recover a non-existing user password', async () => {
-    await expect(sendForgotPasswordEmail.execute('mu@rilo.com'))
-      .rejects.toBeInstanceOf(AppError)
-  })
+    await expect(
+      sendForgotPasswordEmail.execute('mu@rilo.com'),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 
   it('should generate an user token', async () => {
     const user = await fakeUsersRepository.create({
@@ -43,10 +48,10 @@ describe('SendForgotPasswordEmail', () => {
       password: '123456',
     });
 
-    const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate')
+    const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
 
     await sendForgotPasswordEmail.execute('mu@rilo.com');
 
-    expect(generateToken).toHaveBeenCalledWith(user.id)
-  })
+    expect(generateToken).toHaveBeenCalledWith(user.id);
+  });
 });

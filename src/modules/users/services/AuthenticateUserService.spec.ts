@@ -4,10 +4,10 @@ import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-let fakeUsersRepository: FakeUsersRepository
-let fakeHashProvider: FakeHashProvider
-let createUserService: CreateUserService
-let authenticateUser: AuthenticateUserService
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUserService: CreateUserService;
+let authenticateUser: AuthenticateUserService;
 
 describe('AuthenticateUsers', () => {
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('AuthenticateUsers', () => {
       fakeUsersRepository,
       fakeHashProvider,
     );
-  })
+  });
 
   it('should be able to authenticate a user', async () => {
     const user = await createUserService.execute({

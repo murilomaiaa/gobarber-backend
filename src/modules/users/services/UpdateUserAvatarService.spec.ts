@@ -16,7 +16,7 @@ describe('UpdateUserAvatar', () => {
       fakeUsersRepository,
       fakeStorageProvider,
     );
-  })
+  });
   it('should be able to upload a user avatar', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Murilo',

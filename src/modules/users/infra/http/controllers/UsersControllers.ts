@@ -12,7 +12,7 @@ export default class UsersController {
 
     const user = await createUser.execute({ name, email, password });
 
-    const json: Omit<User, 'password'> = user
+    const json: Omit<User, 'password'> = user;
 
     return response.json(json);
   }
